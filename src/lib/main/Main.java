@@ -1,3 +1,5 @@
+package lib.main;
+
 import java.sql.*;
 import java.util.Properties;
 
@@ -6,26 +8,18 @@ public class Main {
         try {
             //maak verbinding met database
             Connection mycon = getConnection();
-            //String url = "jdbc:postgresql://localhost/ovchip";
-            //Properties props = new Properties();
-            //props.setProperty("user","postgres");
-            //props.setProperty("password","oldschool4");
-            //Connection mycon = DriverManager.getConnection(url, props);
-            //maken een statement
-
             Statement myStat = mycon.createStatement();
             //voer een query uit
             ResultSet myRs = myStat.executeQuery("select * from reiziger");
             //verwerk resultaten
-            while(myRs.next()){
-                String s = "#" + myRs.getInt("reiziger_id") + ": " + myRs.getString("voorletters") + " ";
-                if (myRs.getString("tussenvoegsel") != null){
-                    s+= myRs.getString("tussenvoegsel") + " " ;
-                }
-                s += myRs.getString("achternaam") + " (" + myRs.getDate("geboortedatum") + ")";
-                System.out.println(s);
-            }
-            mycon.close();
+            ReizigerDAOPsql dao = new ReizigerDAOPsql(mycon);
+            String gbdatum2 = "1991-04-22";
+            Reiziger jacop = new Reiziger(88, "J", "van den", "Berg", java.sql.Date.valueOf(gbdatum2));
+            Reiziger pierre = new Reiziger(88, "J", "van den", "Berg", java.sql.Date.valueOf(gbdatum2));
+            System.out.println(jacop.equals(pierre));
+            Reiziger gevonden = dao.findById(88);
+            dao.delete(jacop);
+            System.out.println(gevonden);
         }
         catch (Exception exc){
             exc.printStackTrace();
