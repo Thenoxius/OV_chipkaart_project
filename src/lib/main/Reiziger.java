@@ -46,6 +46,9 @@ public class Reiziger {
     }
     public String toString(){
         AdresDAOPsql dao = new AdresDAOPsql();
+        if (dao.findByReiziger(this) == null){
+            return "Reiziger: " + this.getNaam() + " met ID: " + this.getId();
+        }
         Adres woning = dao.findByReiziger(this);
         return "Reiziger: " + this.getNaam() + " met ID: " + this.getId()  + ", Adres = " + woning.getStraat() +
                 " " + woning.getHuisnummer() + " " + woning.getPostcode() + " " +

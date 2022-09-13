@@ -22,8 +22,20 @@ public class AdresDAOPsql implements AdresDAO{
     }
     public AdresDAOPsql(){}
 
+    public boolean reizigerCheck(int ID) throws SQLException {
+        ReizigerDAOPsql dao = new ReizigerDAOPsql();
+        if (dao.findById(ID) != null){
+            return true;
+        }
+        return false;
+    }
+
     @Override
-    public boolean save(Adres adres) {
+    public boolean save(Adres adres) throws SQLException {
+        if (reizigerCheck(adres.getReiziger_id()) == false){
+            System.out.println("er moet een reiziger met dit ID bestaan");
+            return false;
+        }
         try{
             getConnection();
             PreparedStatement ps = connection.prepareStatement("INSERT INTO  adres (adres_id, postcode, huisnummer, straat, woonplaats, reiziger_id) VALUES(?, ?, ?, ?, ?, ?) ");
@@ -46,7 +58,7 @@ public class AdresDAOPsql implements AdresDAO{
     public boolean update(Adres adres) {
         try {
             getConnection();
-            PreparedStatement ps = connection.prepareStatement("UPDATE adres SET postcode = ?, huisnummer = ?, straat = ?, woonplaats = ?, reiziger_id WHERE adres_id = ?");
+            PreparedStatement ps = connection.prepareStatement("UPDATE adres SET postcode = ?, huisnummer = ?, straat = ?, woonplaats = ?, reiziger_id = ? WHERE adres_id = ?");
             ps.setString(1, adres.getPostcode());
             ps.setString(2, adres.getHuisnummer());
             ps.setString(3, adres.getStraat());
@@ -66,12 +78,9 @@ public class AdresDAOPsql implements AdresDAO{
     public boolean delete(Adres adres) {
         try {
             getConnection();
-            PreparedStatement ps = connection.prepareStatement("DELETE FROM reiziger WHERE reiziger_id= ?");
             PreparedStatement ps2 = connection.prepareStatement("DELETE FROM adres WHERE reiziger_id= ?");
-            ps.setInt(1, adres.getReiziger_id());
             ps2.setInt(1, adres.getReiziger_id());
             ps2.executeUpdate();
-            ps.executeUpdate();
             closeConnection(connection);
             return true;
         } catch (SQLException e) {

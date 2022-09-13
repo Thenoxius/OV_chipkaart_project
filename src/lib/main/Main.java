@@ -29,10 +29,10 @@ public class Main {
             System.out.println(result);
             String gbd = "1991-12-04";
             Reiziger Thomas = new Reiziger(24, "T", "van", "Rens", java.sql.Date.valueOf(gbd));
-            //dao.save(Thomas);
+            dao.save(Thomas);
             Adres nieuwAdres = new Adres(17, "2801NL", "10B", "Keizerstraat", "Gouda", 24);
             //dao2.save(nieuwAdres);
-            dao.delete(Thomas);
+            //dao.delete(Thomas);
 
         }
         catch (Exception exc){
