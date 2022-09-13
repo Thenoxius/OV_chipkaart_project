@@ -1,5 +1,6 @@
 package lib.main;
 
+import java.sql.SQLException;
 import java.util.Date;
 
 public class Reiziger {
@@ -44,10 +45,12 @@ public class Reiziger {
         return geboortedatum;
     }
     public String toString(){
-        String s = "";
-        s += "Reiziger: " + getNaam() + " met ID: " + id;
-        return s;
-    }
+        AdresDAOPsql dao = new AdresDAOPsql();
+        Adres woning = dao.findByReiziger(this);
+        return "Reiziger: " + this.getNaam() + " met ID: " + this.getId()  + ", Adres = " + woning.getStraat() +
+                " " + woning.getHuisnummer() + " " + woning.getPostcode() + " " +
+                woning.getWoonplaats() + " met adres ID #" + woning.getAdres_id();
+        }
 
     public boolean equals(Object andereObject){
         boolean gelijkeObjecten = false;

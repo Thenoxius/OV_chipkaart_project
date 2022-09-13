@@ -5,25 +5,7 @@ import java.util.Properties;
 
 public class Main {
     public static void main(String [] args){
-        try {
-            //maak verbinding met database
-            Connection mycon = getConnection();
-            Statement myStat = mycon.createStatement();
-            //voer een query uit
-            ResultSet myRs = myStat.executeQuery("select * from reiziger");
-            //verwerk resultaten
-            ReizigerDAOPsql dao = new ReizigerDAOPsql(mycon);
-            String gbdatum2 = "1991-04-22";
-            Reiziger jacop = new Reiziger(88, "J", "van den", "Berg", java.sql.Date.valueOf(gbdatum2));
-            Reiziger pierre = new Reiziger(88, "J", "van den", "Berg", java.sql.Date.valueOf(gbdatum2));
-            System.out.println(jacop.equals(pierre));
-            Reiziger gevonden = dao.findById(88);
-            dao.delete(jacop);
-            System.out.println(gevonden);
-        }
-        catch (Exception exc){
-            exc.printStackTrace();
-        }
+        testAdresDAO();
     }
 
     public static Connection getConnection() throws SQLException {
@@ -34,7 +16,27 @@ public class Main {
         Connection mycon = DriverManager.getConnection(url, props);
         return mycon;
     }
-    public void closeConnection(Connection mycon) throws SQLException {
+    public static void closeConnection(Connection mycon) throws SQLException {
         mycon.close();
+    }
+    public static void testAdresDAO(){
+        try {
+            //maak verbinding met database
+            ReizigerDAOPsql dao = new ReizigerDAOPsql();
+            Reiziger één = dao.findById(1);
+            AdresDAOPsql dao2 = new AdresDAOPsql();
+            Adres result = dao2.findByReiziger(één);
+            System.out.println(result);
+            String gbd = "1991-12-04";
+            Reiziger Thomas = new Reiziger(24, "T", "van", "Rens", java.sql.Date.valueOf(gbd));
+            //dao.save(Thomas);
+            Adres nieuwAdres = new Adres(17, "2801NL", "10B", "Keizerstraat", "Gouda", 24);
+            //dao2.save(nieuwAdres);
+            dao.delete(Thomas);
+
+        }
+        catch (Exception exc){
+            exc.printStackTrace();
+        }
     }
 }
