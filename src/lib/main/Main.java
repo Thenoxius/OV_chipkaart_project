@@ -9,8 +9,11 @@ import java.sql.*;
 import java.util.Properties;
 
 public class Main {
-    public static void main(String [] args){
-        testAdresDAO();
+    public static void main(String [] args) throws SQLException {
+        ReizigerDAOPsql dao = new ReizigerDAOPsql(getConnection());
+        AdresDAOPsql adao = new AdresDAOPsql(getConnection());
+        adao.setRdao(dao);
+        adao.findAll();
     }
     public static Connection connection;
 

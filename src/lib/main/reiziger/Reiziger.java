@@ -40,8 +40,8 @@ public class Reiziger {
     public String getAchternaam() {
         return achternaam;
     }
-    public Date getGeboortedatum() {
-        return geboortedatum;
+    public java.sql.Date getGeboortedatum() {
+        return (java.sql.Date) geboortedatum;
     }
     public String toString(){
         return "Reiziger: " + this.getNaam() + " met ID: " + this.getId();
