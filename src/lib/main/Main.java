@@ -7,24 +7,30 @@ public class Main {
     public static void main(String [] args){
         testAdresDAO();
     }
+    public static Connection connection;
 
     public static Connection getConnection() throws SQLException {
-        String url = "jdbc:postgresql://localhost/ovchip";
-        Properties props = new Properties();
-        props.setProperty("user","postgres");
-        props.setProperty("password","oldschool4");
-        Connection mycon = DriverManager.getConnection(url, props);
-        return mycon;
+        if (connection == null){
+            String url = "jdbc:postgresql://localhost/ovchip";
+            Properties props = new Properties();
+            props.setProperty("user","postgres");
+            props.setProperty("password","oldschool4");
+            connection = DriverManager.getConnection(url, props);
+        }
+        return connection;
     }
     public static void closeConnection(Connection mycon) throws SQLException {
-        mycon.close();
+        if (connection != null){
+            connection.close();
+            connection = null;
+        }
     }
     public static void testAdresDAO(){
         try {
             //maak verbinding met database
-            ReizigerDAOPsql dao = new ReizigerDAOPsql();
+            ReizigerDAOPsql dao = new ReizigerDAOPsql(getConnection());
             Reiziger één = dao.findById(1);
-            AdresDAOPsql dao2 = new AdresDAOPsql();
+            AdresDAOPsql dao2 = new AdresDAOPsql(getConnection());
             Adres result = dao2.findByReiziger(één);
             System.out.println(result);
             String gbd = "1991-12-04";

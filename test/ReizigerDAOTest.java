@@ -1,20 +1,43 @@
+import lib.main.AdresDAOPsql;
 import lib.main.Reiziger;
 import lib.main.ReizigerDAO;
 import lib.main.ReizigerDAOPsql;
 import org.jetbrains.annotations.NotNull;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static lib.main.Main.closeConnection;
+import static lib.main.Main.getConnection;
 
 class ReizigerDAOTest {
+    private static Connection connection;
+    private ReizigerDAOPsql dao;
+    public static Connection getConnection() throws SQLException {
+        if (connection == null){
+            String url = "jdbc:postgresql://localhost/ovchip";
+            Properties props = new Properties();
+            props.setProperty("user","postgres");
+            props.setProperty("password","oldschool4");
+            connection = DriverManager.getConnection(url, props);
+        }
+        return connection;
+    }
+
+    @BeforeEach
+    public void init() throws SQLException {
+        dao = new ReizigerDAOPsql(getConnection());
+    }
 
     @Test
     public void testGevondenKlantIDEnDaarnaDelete(){
-        ReizigerDAOPsql dao = new ReizigerDAOPsql();
         try {
             dao.getConnection();
             String gbdatum2 = "1991-04-22";
@@ -31,7 +54,6 @@ class ReizigerDAOTest {
 
     @Test
     public void testGevondenKlantGbdEnDaarnaDelete(){
-        ReizigerDAOPsql dao = new ReizigerDAOPsql();
         try {
             dao.getConnection();
             String gbdatum2 = "1991-04-22";
@@ -55,7 +77,6 @@ class ReizigerDAOTest {
 
     @Test
     public void updateDeTestReizigerEnDelete(){
-        ReizigerDAOPsql dao = new ReizigerDAOPsql();
         try {
             dao.getConnection();
             String gbdatum2 = "1991-04-22";

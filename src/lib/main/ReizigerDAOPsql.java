@@ -19,7 +19,6 @@ public class ReizigerDAOPsql implements ReizigerDAO {
     public void closeConnection(Connection mycon) throws SQLException {
         mycon.close();
     }
-    public ReizigerDAOPsql(){}
     public ReizigerDAOPsql(Connection connection){
         this.connection = connection;
     }

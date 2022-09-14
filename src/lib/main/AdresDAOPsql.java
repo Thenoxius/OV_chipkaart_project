@@ -5,25 +5,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import static lib.main.Main.closeConnection;
+import static lib.main.Main.getConnection;
+
 public class AdresDAOPsql implements AdresDAO{
+    public AdresDAOPsql(Connection connection){
+        this.connection = connection;
+    }
     private Connection connection;
 
-    public  void getConnection() throws SQLException {
-        String url = "jdbc:postgresql://localhost/ovchip";
-        Properties props = new Properties();
-        props.setProperty("user","postgres");
-        props.setProperty("password","oldschool4");
-        Connection mycon = DriverManager.getConnection(url, props);
-        this.connection = mycon;
-    }
-
-    public void closeConnection(Connection mycon) throws SQLException {
-        mycon.close();
-    }
-    public AdresDAOPsql(){}
-
     public boolean reizigerCheck(int ID) throws SQLException {
-        ReizigerDAOPsql dao = new ReizigerDAOPsql();
+        ReizigerDAOPsql dao = new ReizigerDAOPsql(getConnection());
         if (dao.findById(ID) != null){
             return true;
         }
@@ -37,7 +29,6 @@ public class AdresDAOPsql implements AdresDAO{
             return false;
         }
         try{
-            getConnection();
             PreparedStatement ps = connection.prepareStatement("INSERT INTO  adres (adres_id, postcode, huisnummer, straat, woonplaats, reiziger_id) VALUES(?, ?, ?, ?, ?, ?) ");
             ps.setInt(1, adres.getAdres_id());
             ps.setString(2, adres.getPostcode());
@@ -57,7 +48,6 @@ public class AdresDAOPsql implements AdresDAO{
     @Override
     public boolean update(Adres adres) {
         try {
-            getConnection();
             PreparedStatement ps = connection.prepareStatement("UPDATE adres SET postcode = ?, huisnummer = ?, straat = ?, woonplaats = ?, reiziger_id = ? WHERE adres_id = ?");
             ps.setString(1, adres.getPostcode());
             ps.setString(2, adres.getHuisnummer());
@@ -77,7 +67,6 @@ public class AdresDAOPsql implements AdresDAO{
     @Override
     public boolean delete(Adres adres) {
         try {
-            getConnection();
             PreparedStatement ps2 = connection.prepareStatement("DELETE FROM adres WHERE reiziger_id= ?");
             ps2.setInt(1, adres.getReiziger_id());
             ps2.executeUpdate();
@@ -93,7 +82,6 @@ public class AdresDAOPsql implements AdresDAO{
     @Override
     public Adres findByReiziger(Reiziger reiziger) {
         try {
-            getConnection();
             PreparedStatement ps = connection.prepareStatement("SELECT * FROM adres WHERE reiziger_id = ?");
             ps.setInt(1, reiziger.getId());
             ResultSet myRs = ps.executeQuery();
@@ -117,7 +105,6 @@ public class AdresDAOPsql implements AdresDAO{
 
     @Override
     public List<Adres> findAll() throws SQLException {
-        getConnection();
         List<Adres> results = new ArrayList<>();
         Statement myStat = connection.createStatement();
         String s = "select * from adres";

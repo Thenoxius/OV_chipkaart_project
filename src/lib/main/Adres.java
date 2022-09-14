@@ -76,12 +76,7 @@ public class Adres {
     }
 
     public String toString() {
-        ReizigerDAOPsql dao = new ReizigerDAOPsql();
-        try {
-            Reiziger bewoner = dao.findById(getAdres_id());
-            return "Reiziger: " + bewoner.getNaam() + " met ID: " + bewoner.getId()  + ", Adres = " + straat + " " + huisnummer + " " + postcode + " " + woonplaats + " met adres ID #" + adres_id;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        return ", Adres = " + straat + " " + huisnummer + " " + postcode + " " + woonplaats + " met adres ID #" + adres_id;
     }
 }
+
