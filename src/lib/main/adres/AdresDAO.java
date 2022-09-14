@@ -1,4 +1,6 @@
-package lib.main;
+package lib.main.adres;
+
+import lib.main.reiziger.Reiziger;
 
 import java.sql.SQLException;
 import java.util.List;

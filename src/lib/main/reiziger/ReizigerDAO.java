@@ -1,4 +1,4 @@
-package lib.main;
+package lib.main.reiziger;
 
 import java.sql.SQLException;
 import java.util.List;

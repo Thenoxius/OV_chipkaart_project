@@ -1,4 +1,4 @@
-package lib.main;
+package lib.main.reiziger;
 
 import java.sql.*;
 import java.sql.Date;

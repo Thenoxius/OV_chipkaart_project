@@ -1,6 +1,4 @@
-package lib.main;
-
-import java.sql.SQLException;
+package lib.main.adres;
 
 public class Adres {
     private int adres_id;

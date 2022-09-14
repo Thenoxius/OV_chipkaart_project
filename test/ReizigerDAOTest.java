@@ -1,8 +1,6 @@
-import lib.main.AdresDAOPsql;
-import lib.main.Reiziger;
-import lib.main.ReizigerDAO;
-import lib.main.ReizigerDAOPsql;
-import org.jetbrains.annotations.NotNull;
+import lib.main.reiziger.Reiziger;
+import lib.main.reiziger.ReizigerDAO;
+import lib.main.reiziger.ReizigerDAOPsql;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,8 +12,6 @@ import java.util.List;
 import java.util.Properties;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static lib.main.Main.closeConnection;
-import static lib.main.Main.getConnection;
 
 class ReizigerDAOTest {
     private static Connection connection;

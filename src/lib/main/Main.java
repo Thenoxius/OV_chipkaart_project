@@ -1,5 +1,10 @@
 package lib.main;
 
+import lib.main.adres.Adres;
+import lib.main.adres.AdresDAOPsql;
+import lib.main.reiziger.Reiziger;
+import lib.main.reiziger.ReizigerDAOPsql;
+
 import java.sql.*;
 import java.util.Properties;
 

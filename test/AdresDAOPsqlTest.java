@@ -1,5 +1,5 @@
-import lib.main.Adres;
-import lib.main.AdresDAOPsql;
+import lib.main.adres.Adres;
+import lib.main.adres.AdresDAOPsql;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

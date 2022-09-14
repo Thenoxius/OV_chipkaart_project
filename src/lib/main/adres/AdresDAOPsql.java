@@ -1,9 +1,11 @@
-package lib.main;
+package lib.main.adres;
+
+import lib.main.reiziger.Reiziger;
+import lib.main.reiziger.ReizigerDAOPsql;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 import static lib.main.Main.closeConnection;
 import static lib.main.Main.getConnection;
