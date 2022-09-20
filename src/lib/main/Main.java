@@ -14,8 +14,8 @@ public class Main {
         ReizigerDAOPsql dao = new ReizigerDAOPsql(getConnection());
         AdresDAOPsql adao = new AdresDAOPsql(getConnection());
         OVChipkaartDAOPsql ovdao = new OVChipkaartDAOPsql(getConnection());
-        ovdao.setRdao(dao);
-        ovdao.findAll();
+        Reiziger reiziger = dao.findById(2);
+        System.out.println(dao.findReizigerKaarten(reiziger));
     }
     public static Connection connection;
 

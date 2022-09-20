@@ -1,5 +1,7 @@
 package lib.main.reiziger;
 
+import lib.main.OV_Chipkaart.OVChipkaart;
+import lib.main.OV_Chipkaart.OVChipkaartDAOPsql;
 import lib.main.adres.Adres;
 
 import java.sql.*;
@@ -99,6 +101,11 @@ public class ReizigerDAOPsql implements ReizigerDAO {
         PreparedStatement ps = connection.prepareStatement("select * from reiziger");
         List<Reiziger> results = new ArrayList<>();
         return getReizigers(ps, results);
+    }
+
+    public List<OVChipkaart> findReizigerKaarten(Reiziger reiziger){
+        OVChipkaartDAOPsql ovdao = new OVChipkaartDAOPsql(connection);
+        return ovdao.findByReiziger(reiziger);
     }
 
     private List<Reiziger> getReizigers(PreparedStatement ps, List<Reiziger> results) throws SQLException {

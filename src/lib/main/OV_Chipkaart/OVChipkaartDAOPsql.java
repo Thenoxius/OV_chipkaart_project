@@ -1,6 +1,5 @@
 package lib.main.OV_Chipkaart;
 
-import lib.main.adres.Adres;
 import lib.main.reiziger.Reiziger;
 import lib.main.reiziger.ReizigerDAOPsql;
 
@@ -11,7 +10,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static lib.main.Main.closeConnection;
 import static lib.main.Main.getConnection;
 
 public class OVChipkaartDAOPsql implements OVChipkaartDAO{
@@ -86,8 +84,9 @@ public class OVChipkaartDAOPsql implements OVChipkaartDAO{
     }
 
     @Override
-    public OVChipkaart findByReiziger(Reiziger reiziger) {
+    public List<OVChipkaart> findByReiziger(Reiziger reiziger) {
         try {
+            List<OVChipkaart> results = new ArrayList<>();
             PreparedStatement ps = connection.prepareStatement("SELECT * FROM ov_chipkaart WHERE reiziger_id = ?");
             ps.setInt(1, reiziger.getId());
             ResultSet myRs = ps.executeQuery();
@@ -96,13 +95,13 @@ public class OVChipkaartDAOPsql implements OVChipkaartDAO{
                 int reisid = myRs.getInt("reiziger_id");
                 int klassint = myRs.getInt("klasse");
                 Long saldolong = myRs.getLong("saldo");
-                OVChipkaart result = new OVChipkaart(kaartNummer, myRs.getDate("geldig_tot"), klassint, saldolong, reisid);
-                return result;
+                OVChipkaart ovresult = new OVChipkaart(kaartNummer, myRs.getDate("geldig_tot"), klassint, saldolong, reisid);
+                results.add(ovresult);
             }
+            return results;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return null;
     }
 
     @Override
