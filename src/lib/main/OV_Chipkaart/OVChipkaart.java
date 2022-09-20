@@ -30,6 +30,9 @@ public class OVChipkaart {
     public int getKlasse() {
         return klasse;
     }
+    public void setKlasse(int klasse){
+        this.klasse=klasse;
+    }
 
 
     public long getSaldo() {
