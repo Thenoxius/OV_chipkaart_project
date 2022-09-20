@@ -1,5 +1,6 @@
 package lib.main;
 
+import lib.main.OV_Chipkaart.OVChipkaartDAOPsql;
 import lib.main.adres.Adres;
 import lib.main.adres.AdresDAOPsql;
 import lib.main.reiziger.Reiziger;
@@ -12,8 +13,9 @@ public class Main {
     public static void main(String [] args) throws SQLException {
         ReizigerDAOPsql dao = new ReizigerDAOPsql(getConnection());
         AdresDAOPsql adao = new AdresDAOPsql(getConnection());
-        adao.setRdao(dao);
-        adao.findAll();
+        OVChipkaartDAOPsql ovdao = new OVChipkaartDAOPsql(getConnection());
+        ovdao.setRdao(dao);
+        ovdao.findAll();
     }
     public static Connection connection;
 

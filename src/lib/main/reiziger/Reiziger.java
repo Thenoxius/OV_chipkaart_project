@@ -1,6 +1,10 @@
 package lib.main.reiziger;
 
+import lib.main.OV_Chipkaart.OVChipkaart;
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Reiziger {
     private int id;
@@ -10,6 +14,7 @@ public class Reiziger {
     private String achternaam;
 
     private Date geboortedatum;
+    private List<OVChipkaart> mijnChipkaarten = new ArrayList<>();
 
     public Reiziger(int id,String vl, String tv, String ach, Date gb){
         this.id = id;

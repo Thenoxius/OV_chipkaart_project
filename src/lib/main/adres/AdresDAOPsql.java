@@ -102,7 +102,6 @@ public class AdresDAOPsql implements AdresDAO{
                 String straatString = myRs.getString("straat");
                 String woonplaatsString = myRs.getString("woonplaats");
                 Adres result = new Adres(adresId, postcodeString, huisnummerString, straatString, woonplaatsString, reisid);
-                closeConnection(connection);
                 return result;
             }
         } catch (SQLException e) {
