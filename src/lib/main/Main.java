@@ -11,11 +11,13 @@ import java.util.Properties;
 
 public class Main {
     public static void main(String [] args) throws SQLException {
-        ReizigerDAOPsql dao = new ReizigerDAOPsql(getConnection());
-        AdresDAOPsql adao = new AdresDAOPsql(getConnection());
-        OVChipkaartDAOPsql ovdao = new OVChipkaartDAOPsql(getConnection());
+        getConnection();
+        ReizigerDAOPsql dao = new ReizigerDAOPsql(connection);
+        AdresDAOPsql adao = new AdresDAOPsql(connection);
+        OVChipkaartDAOPsql ovdao = new OVChipkaartDAOPsql(connection);
         Reiziger reiziger = dao.findById(2);
         System.out.println(dao.findReizigerKaarten(reiziger));
+        closeConnection(connection);
     }
     public static Connection connection;
 
