@@ -2,6 +2,7 @@ import lib.main.OV_Chipkaart.OVChipkaart;
 import lib.main.OV_Chipkaart.OVChipkaartDAOPsql;
 import lib.main.adres.Adres;
 import lib.main.adres.AdresDAOPsql;
+import lib.main.reiziger.Reiziger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -32,8 +33,10 @@ class OVChipkaartDAOPsqlTest {
     @BeforeEach
     public void init() throws SQLException {
         dao = new OVChipkaartDAOPsql(getConnection());
+        String gbdatum2 = "1991-04-22";
+        Reiziger johan = new Reiziger(24, "J", "van", "der Berg", java.sql.Date.valueOf(gbdatum2));
         String datum = "2024-04-22";
-        testChipkaart = new OVChipkaart(9999999,  java.sql.Date.valueOf(datum), 1, 50, 1);
+        testChipkaart = new OVChipkaart(9999999,  java.sql.Date.valueOf(datum), 1, 50, johan);
 
     }
 

@@ -1,5 +1,6 @@
 import lib.main.adres.Adres;
 import lib.main.adres.AdresDAOPsql;
+import lib.main.reiziger.Reiziger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -29,7 +30,9 @@ class AdresDAOPsqlTest {
     @BeforeEach
     public void init() throws SQLException {
         dao = new AdresDAOPsql(getConnection());
-        nieuwAdres = new Adres(17, "2801NL", "10B", "Keizerstraat", "Gouda", 24);
+        String gbdatum2 = "1991-04-22";
+        Reiziger johan = new Reiziger(24, "J", "van", "der Berg", java.sql.Date.valueOf(gbdatum2));
+        nieuwAdres = new Adres(17, "2801NL", "10B", "Keizerstraat", "Gouda", johan);
     }
 
     @Test

@@ -14,7 +14,9 @@ public class Main {
         getConnection();
         ReizigerDAOPsql dao = new ReizigerDAOPsql(connection);
         AdresDAOPsql adao = new AdresDAOPsql(connection);
+        dao.setAdao(adao);
         OVChipkaartDAOPsql ovdao = new OVChipkaartDAOPsql(connection);
+        dao.setOvdao(ovdao);
         Reiziger reiziger = dao.findById(2);
         System.out.println(dao.findReizigerKaarten(reiziger));
         closeConnection(connection);
@@ -48,7 +50,7 @@ public class Main {
             String gbd = "1991-12-04";
             Reiziger Thomas = new Reiziger(24, "T", "van", "Rens", java.sql.Date.valueOf(gbd));
             dao.save(Thomas);
-            Adres nieuwAdres = new Adres(17, "2801NL", "10B", "Keizerstraat", "Gouda", 24);
+            Adres nieuwAdres = new Adres(17, "2801NL", "10B", "Keizerstraat", "Gouda", Thomas);
             //dao2.save(nieuwAdres);
             //dao.delete(Thomas);
 

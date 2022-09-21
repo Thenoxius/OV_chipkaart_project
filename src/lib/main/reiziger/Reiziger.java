@@ -1,6 +1,7 @@
 package lib.main.reiziger;
 
 import lib.main.OV_Chipkaart.OVChipkaart;
+import lib.main.adres.Adres;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -12,9 +13,19 @@ public class Reiziger {
 
     private String tussenvoegsel;
     private String achternaam;
+    private Adres mijnAdres;
+    public void setAdres(Adres adres){
+        mijnAdres = adres;
+    }
 
     private Date geboortedatum;
     private List<OVChipkaart> mijnChipkaarten = new ArrayList<>();
+    public void addToChipkaarten (OVChipkaart chip){
+        mijnChipkaarten.add(chip);
+    }
+    public List<OVChipkaart> getMijnChipkaarten(){
+        return mijnChipkaarten;
+    }
 
     public Reiziger(int id,String vl, String tv, String ach, Date gb){
         this.id = id;
@@ -22,6 +33,9 @@ public class Reiziger {
         this.tussenvoegsel = tv;
         this.achternaam = ach;
         this.geboortedatum = gb;
+    }
+    public Adres getMijnAdres(){
+        return mijnAdres;
     }
 
     public int getId(){

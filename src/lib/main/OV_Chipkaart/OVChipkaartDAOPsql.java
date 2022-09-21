@@ -17,16 +17,12 @@ public class OVChipkaartDAOPsql implements OVChipkaartDAO{
     private Connection connection;
     private ReizigerDAOPsql rdao;
 
-    public ReizigerDAOPsql getRdao() {
-        return rdao;
-    }
     public void setRdao(ReizigerDAOPsql rdao) {
         this.rdao = rdao;
     }
 
-    public boolean reizigerCheck(int ID) throws SQLException {
-        ReizigerDAOPsql dao = new ReizigerDAOPsql(getConnection());
-        if (dao.findById(ID) != null){
+    public boolean reizigerCheck(Reiziger reiziger) throws SQLException {
+        if (rdao.findById(reiziger.getId()) != null){
             return true;
         }
         return false;
@@ -34,7 +30,7 @@ public class OVChipkaartDAOPsql implements OVChipkaartDAO{
 
     @Override
     public boolean save(OVChipkaart chipkaart) throws SQLException {
-        if (reizigerCheck(chipkaart.getReiziger_id()) == false){
+        if (reizigerCheck(chipkaart.getReiziger()) == false){
             System.out.println("er moet een reiziger met dit ID bestaan");
             return false;
         }
@@ -44,7 +40,7 @@ public class OVChipkaartDAOPsql implements OVChipkaartDAO{
             ps.setDate(2, chipkaart.getGeldig_tot());
             ps.setInt(3, chipkaart.getKlasse());
             ps.setLong(4, chipkaart.getSaldo());
-            ps.setInt(5, chipkaart.getReiziger_id());
+            ps.setInt(5, chipkaart.getReiziger().getId());
             ps.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -60,7 +56,7 @@ public class OVChipkaartDAOPsql implements OVChipkaartDAO{
             ps.setDate(1, chipkaart.getGeldig_tot());
             ps.setInt(2, chipkaart.getKlasse());
             ps.setLong(3, chipkaart.getSaldo());
-            ps.setInt(4, chipkaart.getReiziger_id());
+            ps.setInt(4, chipkaart.getReiziger().getId());
             ps.setInt(5, chipkaart.getKaartnummer());
             ps.executeUpdate();
             return true;
@@ -95,7 +91,8 @@ public class OVChipkaartDAOPsql implements OVChipkaartDAO{
                 int reisid = myRs.getInt("reiziger_id");
                 int klassint = myRs.getInt("klasse");
                 Long saldolong = myRs.getLong("saldo");
-                OVChipkaart ovresult = new OVChipkaart(kaartNummer, myRs.getDate("geldig_tot"), klassint, saldolong, reisid);
+                Reiziger resultreiziger = rdao.findById(reisid);
+                OVChipkaart ovresult = new OVChipkaart(kaartNummer, myRs.getDate("geldig_tot"), klassint, saldolong, resultreiziger);
                 results.add(ovresult);
             }
             return results;
@@ -114,7 +111,8 @@ public class OVChipkaartDAOPsql implements OVChipkaartDAO{
             int reisid = myRs.getInt("reiziger_id");
             int klassint = myRs.getInt("klasse");
             Long saldolong = myRs.getLong("saldo");
-            OVChipkaart resultOV = new OVChipkaart(kaartNummer, myRs.getDate("geldig_tot"), klassint, saldolong, reisid);
+            Reiziger resultreiziger = rdao.findById(reisid);
+            OVChipkaart resultOV = new OVChipkaart(kaartNummer, myRs.getDate("geldig_tot"), klassint, saldolong, resultreiziger);
             Reiziger resultR = rdao.findById(reisid);
             System.out.println(resultR);
             System.out.println(resultOV);
