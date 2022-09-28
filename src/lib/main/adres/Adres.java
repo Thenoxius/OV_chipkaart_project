@@ -75,5 +75,10 @@ public class Adres {
     public String toString() {
         return ", Adres = " + straat + " " + huisnummer + " " + postcode + " " + woonplaats + " met adres ID #" + adres_id;
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(adres_id, postcode, huisnummer, straat, woonplaats, reiziger);
+    }
 }
 

@@ -6,6 +6,7 @@ import lib.main.adres.Adres;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class Reiziger {
     private int id;
@@ -77,5 +78,8 @@ public class Reiziger {
         return gelijkeObjecten;
     }
 
-
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, voorletters, tussenvoegsel, achternaam, mijnAdres, geboortedatum, mijnChipkaarten);
+    }
 }

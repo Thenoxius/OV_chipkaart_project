@@ -52,6 +52,11 @@ public class OVChipkaart {
         return kaartnummer == that.kaartnummer && klasse == that.klasse && saldo == that.saldo && Objects.equals(geldig_tot, that.geldig_tot) && Objects.equals(mijnReiziger, that.mijnReiziger);
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(kaartnummer, geldig_tot, klasse, saldo, mijnReiziger);
+    }
+
     public String toString(){
         return kaartnummer + " is geldig tot " + geldig_tot + " en bevat een saldo van €" + saldo + " en is te grbuiken voor klasse " + klasse;
     }
