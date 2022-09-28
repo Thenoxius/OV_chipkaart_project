@@ -3,6 +3,7 @@ package lib.main;
 import lib.main.OV_Chipkaart.OVChipkaartDAOPsql;
 import lib.main.adres.Adres;
 import lib.main.adres.AdresDAOPsql;
+import lib.main.product.ProductDAOPsql;
 import lib.main.reiziger.Reiziger;
 import lib.main.reiziger.ReizigerDAOPsql;
 
@@ -17,6 +18,8 @@ public class Main {
         dao.setAdao(adao);
         OVChipkaartDAOPsql ovdao = new OVChipkaartDAOPsql(connection);
         dao.setOvdao(ovdao);
+        ProductDAOPsql pdao = new ProductDAOPsql(connection);
+        dao.setPdao(pdao);
         Reiziger reiziger = dao.findById(2);
         System.out.println(dao.findReizigerKaarten(reiziger));
         closeConnection(connection);
