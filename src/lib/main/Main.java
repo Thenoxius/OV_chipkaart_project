@@ -1,10 +1,14 @@
 package lib.main;
 
+import lib.main.OV_Chipkaart.OVChipkaartDAO;
 import lib.main.OV_Chipkaart.OVChipkaartDAOPsql;
 import lib.main.adres.Adres;
+import lib.main.adres.AdresDAO;
 import lib.main.adres.AdresDAOPsql;
+import lib.main.product.ProductDAO;
 import lib.main.product.ProductDAOPsql;
 import lib.main.reiziger.Reiziger;
+import lib.main.reiziger.ReizigerDAO;
 import lib.main.reiziger.ReizigerDAOPsql;
 
 import java.sql.*;
@@ -13,12 +17,12 @@ import java.util.Properties;
 public class Main {
     public static void main(String [] args) throws SQLException {
         getConnection();
-        ReizigerDAOPsql dao = new ReizigerDAOPsql(connection);
-        AdresDAOPsql adao = new AdresDAOPsql(connection);
+        ReizigerDAO dao = new ReizigerDAOPsql(connection);
+        AdresDAO adao = new AdresDAOPsql(connection);
         dao.setAdao(adao);
-        OVChipkaartDAOPsql ovdao = new OVChipkaartDAOPsql(connection);
+        OVChipkaartDAO ovdao = new OVChipkaartDAOPsql(connection);
         dao.setOvdao(ovdao);
-        ProductDAOPsql pdao = new ProductDAOPsql(connection);
+        ProductDAO pdao = new ProductDAOPsql(connection);
         dao.setPdao(pdao);
         Reiziger reiziger = dao.findById(2);
         System.out.println(dao.findReizigerKaarten(reiziger));

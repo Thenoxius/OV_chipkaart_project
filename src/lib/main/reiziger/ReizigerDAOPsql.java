@@ -1,9 +1,12 @@
 package lib.main.reiziger;
 
 import lib.main.OV_Chipkaart.OVChipkaart;
+import lib.main.OV_Chipkaart.OVChipkaartDAO;
 import lib.main.OV_Chipkaart.OVChipkaartDAOPsql;
 import lib.main.adres.Adres;
+import lib.main.adres.AdresDAO;
 import lib.main.adres.AdresDAOPsql;
+import lib.main.product.ProductDAO;
 import lib.main.product.ProductDAOPsql;
 
 import java.sql.*;
@@ -18,18 +21,18 @@ public class ReizigerDAOPsql implements ReizigerDAO {
     public ReizigerDAOPsql(Connection connection){
         this.connection = connection;
     }
-    private AdresDAOPsql adao;
-    private OVChipkaartDAOPsql ovdao;
-    private ProductDAOPsql pdao;
-    public void setAdao(AdresDAOPsql adao){
+    private AdresDAO adao;
+    private OVChipkaartDAO ovdao;
+    private ProductDAO pdao;
+    public void setAdao(AdresDAO adao){
         this.adao = adao;
         adao.setRdao(this);
     }
-    public void setOvdao(OVChipkaartDAOPsql ovdao){
+    public void setOvdao(OVChipkaartDAO ovdao){
         this.ovdao = ovdao;
         ovdao.setRdao(this);
     }
-    public void setPdao(ProductDAOPsql pdao){
+    public void setPdao(ProductDAO pdao){
         this.pdao = pdao;
         pdao.setRdao(this);
     }
@@ -159,6 +162,7 @@ public class ReizigerDAOPsql implements ReizigerDAO {
         List<Reiziger> results = new ArrayList<>();
         return getReizigers(ps, results);
     }
+
 
     public List<OVChipkaart> findReizigerKaarten(Reiziger reiziger){
         return ovdao.findByReiziger(reiziger);

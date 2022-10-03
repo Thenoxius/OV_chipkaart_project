@@ -1,6 +1,7 @@
 package lib.main.adres;
 
 import lib.main.reiziger.Reiziger;
+import lib.main.reiziger.ReizigerDAO;
 import lib.main.reiziger.ReizigerDAOPsql;
 
 import java.sql.*;
@@ -16,15 +17,15 @@ public class AdresDAOPsql implements AdresDAO{
     }
     private Connection connection;
 
-    public ReizigerDAOPsql getRdao() {
+    public ReizigerDAO getRdao() {
         return rdao;
     }
 
-    public void setRdao(ReizigerDAOPsql rdao) {
+    public void setRdao(ReizigerDAO rdao) {
         this.rdao = rdao;
     }
 
-    private ReizigerDAOPsql rdao;
+    private ReizigerDAO rdao;
 
     public boolean reizigerCheck(int ID) throws SQLException {
         ReizigerDAOPsql dao = new ReizigerDAOPsql(getConnection());

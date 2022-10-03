@@ -1,6 +1,7 @@
 package lib.main.OV_Chipkaart;
 
 import lib.main.reiziger.Reiziger;
+import lib.main.reiziger.ReizigerDAO;
 import lib.main.reiziger.ReizigerDAOPsql;
 
 import java.sql.Connection;
@@ -15,9 +16,9 @@ import static lib.main.Main.getConnection;
 public class OVChipkaartDAOPsql implements OVChipkaartDAO{
     public OVChipkaartDAOPsql(Connection connection){this.connection = connection;}
     private Connection connection;
-    private ReizigerDAOPsql rdao;
+    private ReizigerDAO rdao;
 
-    public void setRdao(ReizigerDAOPsql rdao) {
+    public void setRdao(ReizigerDAO rdao) {
         this.rdao = rdao;
     }
 
