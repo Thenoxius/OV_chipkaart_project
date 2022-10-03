@@ -36,6 +36,12 @@ public class ReizigerDAOPsql implements ReizigerDAO {
         this.pdao = pdao;
         pdao.setRdao(this);
     }
+    public ProductDAO getPdao(){
+        return pdao;
+    }
+    public OVChipkaartDAO getOvdao(){
+        return ovdao;
+    }
 
     @Override
     public boolean save(Reiziger reiziger) throws SQLException {

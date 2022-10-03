@@ -1,5 +1,9 @@
 package lib.main.product;
 
+import lib.main.OV_Chipkaart.OVChipkaart;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Product {
@@ -7,11 +11,32 @@ public class Product {
     private String naam;
     private String beschrijving;
     private long prijs;
+    private Status status;
+    public String getStatus(){
+        return status.toString();
+    }
+
     public Product(int pnr, String nm, String bsv, long prs){
         this.product_nummer=pnr;
         this.naam=nm;
         this.beschrijving=bsv;
         this.prijs=prs;
+    }
+    private List<OVChipkaart> ovKaartenMetProduct = new ArrayList<>();
+    public List<OVChipkaart> getChipkaarten(){
+        return ovKaartenMetProduct;
+    }
+    public void addOvChipkaart(OVChipkaart ovChipkaart){
+        if (!ovKaartenMetProduct.contains(ovChipkaart)){
+            ovKaartenMetProduct.add(ovChipkaart);
+            ovChipkaart.addToProducten(this);
+        }
+    }
+    public void removeOvChipkaart(OVChipkaart ovChipkaart){
+        if (ovKaartenMetProduct.contains(ovChipkaart)){
+            ovKaartenMetProduct.remove(ovChipkaart);
+            ovChipkaart.removeProducten(this);
+        }
     }
 
     public int getProduct_nummer() {
@@ -57,5 +82,9 @@ public class Product {
     @Override
     public int hashCode() {
         return Objects.hash(product_nummer, naam, beschrijving, prijs);
+    }
+
+    public String toString(){
+        return "Product: #" + product_nummer + " naam: " + naam + "\n" + beschrijving + "\nPrijs: €" + prijs+ ".-\n";
     }
 }

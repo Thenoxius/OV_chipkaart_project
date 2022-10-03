@@ -1,8 +1,11 @@
 package lib.main.OV_Chipkaart;
 
+import lib.main.product.Product;
 import lib.main.reiziger.Reiziger;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 public class OVChipkaart {
@@ -11,6 +14,23 @@ public class OVChipkaart {
     private int klasse;
     private long saldo;
     private Reiziger mijnReiziger;
+    private List<Product> mijnProducten = new ArrayList<>();
+    public void addToProducten(Product product){
+        if (!mijnProducten.contains(product)){
+            mijnProducten.add(product);
+            product.addOvChipkaart(this);
+        }
+    }
+    public void removeProducten(Product product){
+        if (mijnProducten.contains(product)){
+            mijnProducten.remove(product);
+            product.removeOvChipkaart(this);
+        }
+    }
+
+    public List<Product> getMijnProducten(){
+        return mijnProducten;
+    }
     public OVChipkaart(int kaartnummer, Date geldig_tot, int klasse, long saldo, Reiziger reiziger){
         this.kaartnummer=kaartnummer;
         this.geldig_tot=geldig_tot;

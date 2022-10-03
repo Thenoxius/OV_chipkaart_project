@@ -1,5 +1,7 @@
 package lib.main.OV_Chipkaart;
 
+import lib.main.product.Product;
+import lib.main.product.ProductDAO;
 import lib.main.reiziger.Reiziger;
 import lib.main.reiziger.ReizigerDAO;
 import lib.main.reiziger.ReizigerDAOPsql;
@@ -59,6 +61,10 @@ public class OVChipkaartDAOPsql implements OVChipkaartDAO{
             ps.setLong(3, chipkaart.getSaldo());
             ps.setInt(4, chipkaart.getReiziger().getId());
             ps.setInt(5, chipkaart.getKaartnummer());
+            for (Product product : chipkaart.getMijnProducten()){
+                ProductDAO pdao = rdao.getPdao();
+                pdao.update(product);
+            }
             ps.executeUpdate();
             return true;
         }catch (Exception ex){
@@ -100,6 +106,27 @@ public class OVChipkaartDAOPsql implements OVChipkaartDAO{
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public OVChipkaart findByKaartNummer(OVChipkaart ovChipkaart) {
+        try {
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM ov_chipkaart WHERE kaart_nummer = ?");
+            ps.setInt(1, ovChipkaart.getKaartnummer());
+            ResultSet myRs = ps.executeQuery();
+            while(myRs.next()){
+                int kaartNummer = myRs.getInt("kaart_nummer");
+                int reisid = myRs.getInt("reiziger_id");
+                int klassint = myRs.getInt("klasse");
+                Long saldolong = myRs.getLong("saldo");
+                Reiziger resultreiziger = rdao.findById(reisid);
+                OVChipkaart ovresult = new OVChipkaart(kaartNummer, myRs.getDate("geldig_tot"), klassint, saldolong, resultreiziger);
+                return ovresult;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+    }
+        return null;
     }
 
     @Override
