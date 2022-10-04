@@ -20,6 +20,7 @@ public class ProductDAOPsql implements ProductDAO {
     public ProductDAOPsql(Connection connection){this.connection = connection;}
     private Connection connection;
     private ReizigerDAO rdao;
+
     @Override
     public boolean save(Product product) throws SQLException {
         try{
