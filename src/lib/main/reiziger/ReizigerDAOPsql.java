@@ -148,6 +148,8 @@ public class ReizigerDAOPsql implements ReizigerDAO {
             }
             String achternaam = myRs.getString("achternaam");
             Reiziger findbyid = new Reiziger(reisid, voornaam, tussenvoegsel, achternaam, myRs.getDate("geboortedatum"));
+            Adres adresvanreiziger = adao.findByReiziger(findbyid);
+            findbyid.setAdres(adresvanreiziger);
             return findbyid;
         }
         return null;
@@ -185,7 +187,8 @@ public class ReizigerDAOPsql implements ReizigerDAO {
             }
             String achternaam = myRs.getString("achternaam");
             Reiziger addToReult = new Reiziger(reisid, voornaam, tussenvoegsel, achternaam, myRs.getDate("geboortedatum"));
-            System.out.println(addToReult);
+            Adres reizigeradres = adao.findByReiziger(addToReult);
+            addToReult.setAdres(reizigeradres);
             results.add(addToReult);
         }
         return results;

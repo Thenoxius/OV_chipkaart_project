@@ -131,9 +131,7 @@ public class AdresDAOPsql implements AdresDAO{
             Reiziger reiziger = rdao.findById(reisid);
             Adres resultA = new Adres(adresId, postcodeString, huisnummerString, straatString, woonplaatsString, reiziger);
             Reiziger resultR = rdao.findById(reisid);
-            String resultString = resultR.toString();
-            resultString += resultA.toString();
-            System.out.println(resultString);
+            resultA.setReiziger(resultR);
             results.add(resultA);
         }
         return results;

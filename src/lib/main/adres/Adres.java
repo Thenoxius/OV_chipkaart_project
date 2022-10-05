@@ -64,6 +64,9 @@ public class Adres {
     public Reiziger getReiziger(){
         return reiziger;
     }
+    public void setReiziger(Reiziger reiziger){
+        this.reiziger = reiziger;
+    }
 
     public boolean equals(Object o) {
         if (this == o) return true;

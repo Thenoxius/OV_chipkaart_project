@@ -78,7 +78,7 @@ public class OVChipkaart {
     }
 
     public String toString(){
-        return kaartnummer + " is geldig tot " + geldig_tot + " en bevat een saldo van €" + saldo + " en is te grbuiken voor klasse " + klasse + " met producten:\n " + mijnProducten + "\n van reiziger: " + mijnReiziger + "\n";
+        return kaartnummer + " is geldig tot " + geldig_tot + " en bevat een saldo van €" + saldo + " en is te grbuiken voor klasse " + klasse + " met producten:\n " + mijnProducten + "\n van reiziger: " + mijnReiziger + "\n" + mijnReiziger.getMijnAdres() + "\n";
     }
 
 }
