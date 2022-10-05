@@ -34,6 +34,16 @@ public class ProductDAOPsql implements ProductDAO {
             ps.setString(3, product.getBeschrijving());
             ps.setLong(4, product.getPrijs());
             ps.executeUpdate();
+            if (rdao.getOvdao() != null){
+                OVChipkaartDAO ovdao = rdao.getOvdao();
+                if (product.getChipkaarten() != null){
+                    for (OVChipkaart chip : product.getChipkaarten()){
+                        if (!ovdao.findAll().contains(chip)){
+                            ovdao.save(chip);
+                        }
+                    }
+                }
+            }
             return true;
         } catch (Exception ex){
             ex.printStackTrace();
@@ -44,26 +54,29 @@ public class ProductDAOPsql implements ProductDAO {
     @Override
     public boolean update(Product product) throws SQLException {
         try{
-            PreparedStatement ps = connection.prepareStatement("UPDATE product SET naam=?, beschrijving=?, prijs=? WHERE product_nummer=?");
-            ps.setString(1, product.getNaam());
-            ps.setString(2, product.getBeschrijving());
-            ps.setLong(3, product.getPrijs());
-            ps.setInt(4, product.getProduct_nummer());
-            OVChipkaartDAO ovdao = rdao.getOvdao();
-            for (OVChipkaart chip : product.getChipkaarten()){
-                if (chipkaartInGebruik(chip, product) == true){
-                    PreparedStatement ps2 = connection.prepareStatement("UPDATE ov_chipkaart_product SET last_update=?, status=? WHERE product_nummer=? AND kaart_nummer=?");
-                    Date date = Date.valueOf(LocalDate.now());
-                    ps2.setDate(1, date);
-                    ps2.setString(2, product.getStatus());
-                    ps2.setInt(3, product.getProduct_nummer());
-                    ps2.setInt(4, chip.getKaartnummer());
+            List<Product> resultlijst = findAll();
+            if (!resultlijst.contains(product)){
+                PreparedStatement ps = connection.prepareStatement("UPDATE product SET naam=?, beschrijving=?, prijs=? WHERE product_nummer=?");
+                ps.setString(1, product.getNaam());
+                ps.setString(2, product.getBeschrijving());
+                ps.setLong(3, product.getPrijs());
+                ps.setInt(4, product.getProduct_nummer());
+                OVChipkaartDAO ovdao = rdao.getOvdao();
+                for (OVChipkaart chip : product.getChipkaarten()){
+                    if (chipkaartInGebruik(chip, product) == true){
+                        PreparedStatement ps2 = connection.prepareStatement("UPDATE ov_chipkaart_product SET last_update=?, status=? WHERE product_nummer=? AND kaart_nummer=?");
+                        Date date = Date.valueOf(LocalDate.now());
+                        ps2.setDate(1, date);
+                        ps2.setString(2, product.getStatus());
+                        ps2.setInt(3, product.getProduct_nummer());
+                        ps2.setInt(4, chip.getKaartnummer());
+                    }
+                    if (!chip.equals(ovdao.findByKaartNummer(chip))){
+                        ovdao.update(chip);
+                    }
                 }
-                if (!chip.equals(ovdao.findByKaartNummer(chip))){
-                    ovdao.update(chip);
-                }
+                ps.executeUpdate();
             }
-            ps.executeUpdate();
             return true;
         }catch (Exception ex){
             ex.printStackTrace();
@@ -148,8 +161,31 @@ public class ProductDAOPsql implements ProductDAO {
             String beschrijving = myRs.getString("beschrijving");
             Long prijs = myRs.getLong("prijs");
             Product result_Product = new Product(product_nummer, product_naam, beschrijving, prijs);
+            PreparedStatement psproducten = connection.prepareStatement("SELECT kaart_nummer FROM ov_chipkaart_product WHERE product_nummer = ?");
+            psproducten.setInt(1, result_Product.getProduct_nummer());
+            ResultSet myRsproduct = psproducten.executeQuery();
+            List<Integer> ovkaartnummers = new ArrayList<>();
+            while (myRsproduct.next()){
+                int ovkaart_nummer = myRs.getInt("kaart_nummer");
+                ovkaartnummers.add(ovkaart_nummer);
+            }
+            for (Integer e : ovkaartnummers){
+                PreparedStatement ovophalen = connection.prepareStatement("SELECT * FROM ov_chipkaart WHERE kaart_nummer = ?");
+                ovophalen.setInt(1, e);
+                ResultSet ovchipkaartresultaten = ovophalen.executeQuery();
+                while (ovchipkaartresultaten.next()){
+                    int kaartNummer = myRs.getInt("kaart_nummer");
+                    int reisid = myRs.getInt("reiziger_id");
+                    int klassint = myRs.getInt("klasse");
+                    Long saldolong = myRs.getLong("saldo");
+                    Reiziger resultreiziger = rdao.findById(reisid);
+                    OVChipkaart resultOV = new OVChipkaart(kaartNummer, myRs.getDate("geldig_tot"), klassint, saldolong, resultreiziger);
+                    result_Product.addOvChipkaart(resultOV);
+                }
+            }
             results.add(result_Product);
         }
+
         return results;
     }
 
