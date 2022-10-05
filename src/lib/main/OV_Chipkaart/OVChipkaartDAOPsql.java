@@ -197,7 +197,7 @@ public class OVChipkaartDAOPsql implements OVChipkaartDAO{
             ResultSet myRsproduct = psproducten.executeQuery();
             List<Integer> productnummers = new ArrayList<>();
             while (myRsproduct.next()){
-                int product_nummer = myRs.getInt("product_nummer");
+                int product_nummer = myRsproduct.getInt("product_nummer");
                 productnummers.add(product_nummer);
             }
             for (Integer e : productnummers){
@@ -205,10 +205,10 @@ public class OVChipkaartDAOPsql implements OVChipkaartDAO{
                 productophalen.setInt(1, e);
                 ResultSet productresultaten = productophalen.executeQuery();
                 while (productresultaten.next()){
-                    int product_nummer = myRs.getInt("product_nummer");
-                    String product_naam = myRs.getString("naam");
-                    String beschrijving = myRs.getString("beschrijving");
-                    Long prijs = myRs.getLong("prijs");
+                    int product_nummer = productresultaten.getInt("product_nummer");
+                    String product_naam = productresultaten.getString("naam");
+                    String beschrijving = productresultaten.getString("beschrijving");
+                    Long prijs = productresultaten.getLong("prijs");
                     Product result_Product = new Product(product_nummer, product_naam, beschrijving, prijs);
                     resultOV.addToProducten(result_Product);
                 }

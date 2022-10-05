@@ -27,7 +27,7 @@ public class Main {
         dao.setPdao(pdao);
         Reiziger reiziger = dao.findById(2);
         //System.out.println(dao.findReizigerKaarten(reiziger));
-        System.out.println(pdao.findAll());
+        System.out.println(ovdao.findAll());
         closeConnection(connection);
     }
     public static Connection connection;
