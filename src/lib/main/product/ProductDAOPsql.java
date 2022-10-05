@@ -155,12 +155,12 @@ public class ProductDAOPsql implements ProductDAO {
             String beschrijving = myRs.getString("beschrijving");
             Long prijs = myRs.getLong("prijs");
             Product result_Product = new Product(product_nummer, product_naam, beschrijving, prijs);
-            PreparedStatement psproducten = connection.prepareStatement("SELECT kaart_nummer FROM ov_chipkaart_product WHERE product_nummer = ?");
+            PreparedStatement psproducten = connection.prepareStatement("SELECT * FROM ov_chipkaart_product WHERE product_nummer = ?");
             psproducten.setInt(1, result_Product.getProduct_nummer());
             ResultSet myRsproduct = psproducten.executeQuery();
             List<Integer> ovkaartnummers = new ArrayList<>();
             while (myRsproduct.next()){
-                int ovkaart_nummer = myRs.getInt("kaart_nummer");
+                int ovkaart_nummer = myRsproduct.getInt("kaart_nummer");
                 ovkaartnummers.add(ovkaart_nummer);
             }
             for (Integer e : ovkaartnummers){
@@ -168,12 +168,12 @@ public class ProductDAOPsql implements ProductDAO {
                 ovophalen.setInt(1, e);
                 ResultSet ovchipkaartresultaten = ovophalen.executeQuery();
                 while (ovchipkaartresultaten.next()){
-                    int kaartNummer = myRs.getInt("kaart_nummer");
-                    int reisid = myRs.getInt("reiziger_id");
-                    int klassint = myRs.getInt("klasse");
-                    Long saldolong = myRs.getLong("saldo");
+                    int kaartNummer = ovchipkaartresultaten.getInt("kaart_nummer");
+                    int reisid = ovchipkaartresultaten.getInt("reiziger_id");
+                    int klassint = ovchipkaartresultaten.getInt("klasse");
+                    Long saldolong = ovchipkaartresultaten.getLong("saldo");
                     Reiziger resultreiziger = rdao.findById(reisid);
-                    OVChipkaart resultOV = new OVChipkaart(kaartNummer, myRs.getDate("geldig_tot"), klassint, saldolong, resultreiziger);
+                    OVChipkaart resultOV = new OVChipkaart(kaartNummer, ovchipkaartresultaten.getDate("geldig_tot"), klassint, saldolong, resultreiziger);
                     result_Product.addOvChipkaart(resultOV);
                 }
             }
