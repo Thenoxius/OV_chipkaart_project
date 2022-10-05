@@ -34,15 +34,9 @@ public class ProductDAOPsql implements ProductDAO {
             ps.setString(3, product.getBeschrijving());
             ps.setLong(4, product.getPrijs());
             ps.executeUpdate();
-            if (rdao.getOvdao() != null){
-                OVChipkaartDAO ovdao = rdao.getOvdao();
-                if (product.getChipkaarten() != null){
-                    for (OVChipkaart chip : product.getChipkaarten()){
-                        if (!ovdao.findAll().contains(chip)){
-                            ovdao.save(chip);
-                        }
-                    }
-                }
+            OVChipkaartDAO ovdao = rdao.getOvdao();
+            for (OVChipkaart chip : product.getChipkaarten()){
+                ovdao.save(chip);
             }
             return true;
         } catch (Exception ex){
